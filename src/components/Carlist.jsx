@@ -30,20 +30,22 @@ export default function Carlist() {
     const REST_URL = 'https://carrestapi.herokuapp.com/cars';
 
     const deleteCar = (params) => {
-        console.log("params:" + params.data._links.car.href);
-        fetch(params.data._links.car.href, { method: 'DELETE' })
-            .then(response => {
-                if (response.ok) {
-                    setMsg('Car is deleted successfully!')
-                    setOpen(true);
-                    getCars();
-                }
-                else {
-                    alert('Something went wrong!')
-                }
-            })
-            .catch(error => console.error(error));
-    }
+        if (window.confirm('Are you sure?')) {
+            console.log("params: " + params.data._links.car.href);
+
+            fetch(params.data._links.car.href, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        setMsg('Car is deleted successfully!');
+                        setOpen(true);
+                        getCars();
+                    } else {
+                        alert('Something went wrong!');
+                    }
+                })
+                .catch(error => console.error(error));
+        }
+    };
 
     useEffect(() => getCars(), []);
 
